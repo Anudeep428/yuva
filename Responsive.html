@@ -1,0 +1,1245 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Makes the website responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DevSpace | Responsive Web Design</title>
+
+    <!-- ================= CSS ================= -->
+    <style>
+
+        /* ---------- RESET ---------- */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            color: #172033;
+            background: #f8fafc;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            width: min(1120px, 92%);
+            margin: auto;
+        }
+
+
+        /* ---------- HEADER ---------- */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .navbar {
+            min-height: 75px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 25px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #4f46e5;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            font-size: 15px;
+
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #4f46e5;
+        }
+
+        .nav-btn {
+            background: #4f46e5;
+            color: white;
+
+            padding: 11px 20px;
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #3730a3;
+        }
+
+        /* Mobile menu button */
+
+        .menu-btn {
+            display: none;
+
+            border: none;
+            background: none;
+
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+
+        /* ---------- HERO ---------- */
+
+        .hero {
+            min-height: 650px;
+
+            display: flex;
+            align-items: center;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    #e0e7ff,
+                    transparent 40%
+                ),
+                #f8fafc;
+        }
+
+        .hero-content {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.1fr)
+                minmax(300px, 0.9fr);
+
+            gap: 70px;
+            align-items: center;
+        }
+
+        .badge {
+            color: #4f46e5;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            letter-spacing: 1.5px;
+        }
+
+        .hero h1 {
+            margin: 18px 0;
+
+            font-size: clamp(2.5rem, 5vw, 4.6rem);
+
+            line-height: 1.05;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 span {
+            color: #4f46e5;
+            display: block;
+        }
+
+        .hero p {
+            max-width: 600px;
+
+            color: #64748b;
+
+            font-size: 18px;
+
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            display: inline-block;
+
+            padding: 13px 22px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .primary-btn {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background: #3730a3;
+            transform: translateY(-2px);
+        }
+
+        .secondary-btn {
+            border: 1px solid #cbd5e1;
+        }
+
+        .secondary-btn:hover {
+            background: white;
+        }
+
+
+        /* ---------- DEVICE DESIGN ---------- */
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+        }
+
+        .device-card {
+            width: min(100%, 430px);
+
+            padding: 12px;
+
+            background: #111827;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 25px 60px rgba(15, 23, 42, 0.25);
+
+            transform: rotate(2deg);
+
+            transition: 0.4s;
+        }
+
+        .device-card:hover {
+            transform: rotate(0deg) translateY(-5px);
+        }
+
+        .device-header {
+            height: 28px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 6px;
+
+            padding-left: 8px;
+        }
+
+        .device-header span {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #64748b;
+        }
+
+        .screen-content {
+            min-height: 310px;
+
+            padding: 35px 25px;
+
+            background: linear-gradient(
+                135deg,
+                #eef2ff,
+                #ffffff
+            );
+
+            border-radius: 10px;
+        }
+
+        .screen-title {
+            width: 65%;
+            height: 25px;
+
+            background: #4f46e5;
+
+            border-radius: 5px;
+
+            margin-bottom: 20px;
+        }
+
+        .screen-line {
+            width: 90%;
+            height: 10px;
+
+            background: #cbd5e1;
+
+            border-radius: 5px;
+
+            margin-bottom: 12px;
+        }
+
+        .screen-line.short {
+            width: 60%;
+        }
+
+        .screen-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+
+            margin-top: 35px;
+        }
+
+        .screen-grid div {
+            height: 100px;
+
+            background: #dbeafe;
+
+            border-radius: 8px;
+        }
+
+
+        /* ---------- COMMON SECTION ---------- */
+
+        .section {
+            padding: 90px 0;
+        }
+
+        .section-heading {
+            max-width: 650px;
+
+            margin: 0 auto 50px;
+
+            text-align: center;
+        }
+
+        .section-heading span,
+        .section-label {
+            color: #4f46e5;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            letter-spacing: 1.5px;
+        }
+
+        .section-heading h2,
+        .about-text h2,
+        .contact-box h2 {
+            margin: 10px 0 15px;
+
+            font-size: clamp(2rem, 4vw, 3rem);
+
+            line-height: 1.15;
+        }
+
+        .section-heading p {
+            color: #64748b;
+        }
+
+
+        /* ---------- FEATURES ---------- */
+
+        .features {
+            background: white;
+        }
+
+        .feature-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 22px;
+        }
+
+        .feature-card {
+            padding: 30px;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 14px;
+
+            background: white;
+
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+
+            box-shadow:
+                0 15px 35px rgba(15, 23, 42, 0.1);
+        }
+
+        .feature-icon {
+            width: 55px;
+            height: 55px;
+
+            display: grid;
+            place-items: center;
+
+            background: #eef2ff;
+
+            border-radius: 12px;
+
+            font-size: 25px;
+
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #64748b;
+        }
+
+
+        /* ---------- ABOUT ---------- */
+
+        .about {
+            background: #f1f5f9;
+        }
+
+        .about-content {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 70px;
+
+            align-items: center;
+        }
+
+        .about-text p {
+            color: #64748b;
+
+            margin-bottom: 15px;
+        }
+
+        .check-list {
+            margin-top: 25px;
+        }
+
+        .check-list li {
+            margin-bottom: 10px;
+
+            font-weight: 600;
+        }
+
+
+        /* ---------- RESPONSIVE DEMO ---------- */
+
+        .responsive-box {
+            width: min(100%, 480px);
+
+            padding: 30px;
+
+            background: white;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 20px 45px rgba(15, 23, 42, 0.1);
+        }
+
+        .desktop-box {
+            height: 180px;
+
+            display: grid;
+            place-items: center;
+
+            background: #4f46e5;
+
+            color: white;
+
+            font-size: 24px;
+            font-weight: bold;
+
+            border-radius: 12px;
+
+            margin-bottom: 15px;
+        }
+
+        .tablet-box {
+            width: 75%;
+            height: 80px;
+
+            display: grid;
+            place-items: center;
+
+            margin: auto;
+
+            background: #818cf8;
+
+            color: white;
+
+            font-weight: bold;
+
+            border-radius: 10px;
+        }
+
+        .mobile-box {
+            width: 35%;
+            height: 50px;
+
+            display: grid;
+            place-items: center;
+
+            margin: 15px auto 0;
+
+            background: #c7d2fe;
+
+            color: #312e81;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            border-radius: 8px;
+        }
+
+
+        /* ---------- CONTACT ---------- */
+
+        .contact {
+            background: white;
+        }
+
+        .contact-box {
+            padding: 55px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 30px;
+
+            background: #eef2ff;
+
+            border-radius: 20px;
+        }
+
+        .contact-box p {
+            color: #64748b;
+        }
+
+
+        /* ---------- FOOTER ---------- */
+
+        footer {
+            background: #111827;
+
+            color: #cbd5e1;
+        }
+
+        .footer-content {
+            min-height: 80px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+
+        /* =================================================
+           TABLET
+        ================================================= */
+
+        @media (max-width: 1024px) {
+
+            .section {
+                padding: 75px 0;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr 1fr;
+
+                gap: 40px;
+            }
+
+            .feature-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .about-content {
+                gap: 40px;
+            }
+        }
+
+
+        /* =================================================
+           MOBILE
+        ================================================= */
+
+        @media (max-width: 767px) {
+
+            .section {
+                padding: 60px 0;
+            }
+
+
+            /* Mobile Navigation */
+
+            .navbar {
+                min-height: 70px;
+
+                flex-wrap: wrap;
+
+                padding: 12px 0;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+
+                width: 100%;
+
+                flex-direction: column;
+
+                gap: 15px;
+
+                padding: 15px 0;
+
+                text-align: center;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-btn {
+                display: none;
+            }
+
+
+            /* Hero */
+
+            .hero {
+                padding: 70px 0;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+
+                text-align: center;
+
+                gap: 50px;
+            }
+
+            .hero p {
+                margin-left: auto;
+                margin-right: auto;
+
+                font-size: 16px;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .device-card {
+                transform: none;
+            }
+
+
+            /* Features */
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            /* About */
+
+            .about-content {
+                grid-template-columns: 1fr;
+
+                gap: 45px;
+            }
+
+
+            /* Contact */
+
+            .contact-box {
+                padding: 35px 25px;
+
+                flex-direction: column;
+
+                text-align: center;
+            }
+
+
+            /* Footer */
+
+            .footer-content {
+                padding: 25px 0;
+
+                flex-direction: column;
+
+                text-align: center;
+            }
+        }
+
+
+        /* =================================================
+           SMALL MOBILE
+        ================================================= */
+
+        @media (max-width: 480px) {
+
+            .container {
+                width: 90%;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .hero h1 {
+                letter-spacing: -1px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .primary-btn,
+            .secondary-btn {
+                width: 100%;
+
+                text-align: center;
+            }
+
+            .screen-content {
+                min-height: 240px;
+
+                padding: 25px 15px;
+            }
+
+            .screen-grid div {
+                height: 65px;
+            }
+
+            .feature-card {
+                padding: 25px;
+            }
+
+            .responsive-box {
+                padding: 20px;
+            }
+
+            .desktop-box {
+                height: 140px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <nav class="navbar container">
+
+            <a href="#home" class="logo">
+                Dev<span>Space</span>
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button class="menu-btn" id="menuBtn">
+                ☰
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+
+                <li>
+                    <a href="#home">Home</a>
+                </li>
+
+                <li>
+                    <a href="#features">Features</a>
+                </li>
+
+                <li>
+                    <a href="#about">About</a>
+                </li>
+
+                <li>
+                    <a href="#contact">Contact</a>
+                </li>
+
+            </ul>
+
+            <a href="#contact" class="nav-btn">
+                Get Started
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main>
+
+
+        <!-- HERO -->
+
+        <section class="hero" id="home">
+
+            <div class="container hero-content">
+
+                <div class="hero-text">
+
+                    <span class="badge">
+                        RESPONSIVE WEB DESIGN
+                    </span>
+
+                    <h1>
+                        Build Websites That
+                        <span>Adapt Everywhere.</span>
+                    </h1>
+
+                    <p>
+                        A modern responsive website designed to provide
+                        a smooth and consistent experience across
+                        desktops, tablets, and smartphones.
+                    </p>
+
+                    <div class="hero-buttons">
+
+                        <a href="#features" class="primary-btn">
+                            Explore Features
+                        </a>
+
+                        <a href="#about" class="secondary-btn">
+                            Learn More
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Device Preview -->
+
+                <div class="hero-image">
+
+                    <div class="device-card">
+
+                        <div class="device-header">
+
+                            <span></span>
+                            <span></span>
+                            <span></span>
+
+                        </div>
+
+                        <div class="screen-content">
+
+                            <div class="screen-title"></div>
+
+                            <div class="screen-line"></div>
+
+                            <div class="screen-line short"></div>
+
+                            <div class="screen-grid">
+
+                                <div></div>
+                                <div></div>
+                                <div></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FEATURES -->
+
+        <section class="features section" id="features">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <span>FEATURES</span>
+
+                    <h2>
+                        Designed for Every Screen
+                    </h2>
+
+                    <p>
+                        The layout automatically adjusts according
+                        to the screen size and device.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-grid">
+
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            📱
+                        </div>
+
+                        <h3>
+                            Mobile Friendly
+                        </h3>
+
+                        <p>
+                            Content automatically adapts to
+                            smartphones and smaller screens.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            💻
+                        </div>
+
+                        <h3>
+                            Flexible Layout
+                        </h3>
+
+                        <p>
+                            Flexible grids and containers maintain
+                            a clean layout on different devices.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            ⚡
+                        </div>
+
+                        <h3>
+                            Fast & Efficient
+                        </h3>
+
+                        <p>
+                            Lightweight HTML, CSS and JavaScript
+                            provide a smooth browsing experience.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            🎨
+                        </div>
+
+                        <h3>
+                            Modern Design
+                        </h3>
+
+                        <p>
+                            Clean typography, spacing and visual
+                            hierarchy improve usability.
+                        </p>
+
+                    </article>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ABOUT -->
+
+        <section class="about section" id="about">
+
+            <div class="container about-content">
+
+
+                <div class="about-image">
+
+                    <div class="responsive-box">
+
+                        <div class="desktop-box">
+                            DESKTOP
+                        </div>
+
+                        <div class="tablet-box">
+                            TABLET
+                        </div>
+
+                        <div class="mobile-box">
+                            MOBILE
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="about-text">
+
+                    <span class="section-label">
+                        RESPONSIVE APPROACH
+                    </span>
+
+                    <h2>
+                        One Design. Multiple Devices.
+                    </h2>
+
+                    <p>
+                        Responsive web design allows a webpage to
+                        adapt its layout and content according to
+                        the available screen width.
+                    </p>
+
+                    <p>
+                        This project uses CSS media queries,
+                        flexible grids, relative units and fluid
+                        elements to make the webpage responsive.
+                    </p>
+
+
+                    <ul class="check-list">
+
+                        <li>
+                            ✓ Flexible CSS Grid layout
+                        </li>
+
+                        <li>
+                            ✓ Responsive typography
+                        </li>
+
+                        <li>
+                            ✓ Mobile-first adjustments
+                        </li>
+
+                        <li>
+                            ✓ Fluid containers and spacing
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTACT -->
+
+        <section class="contact section" id="contact">
+
+            <div class="container contact-box">
+
+                <div>
+
+                    <span class="section-label">
+                        GET STARTED
+                    </span>
+
+                    <h2>
+                        Ready to Build Responsive Websites?
+                    </h2>
+
+                    <p>
+                        Create websites that look professional
+                        on every screen size.
+                    </p>
+
+                </div>
+
+                <a
+                    href="mailto:example@email.com"
+                    class="primary-btn"
+                    id="contactBtn"
+                >
+                    Contact Us
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="container footer-content">
+
+            <p>
+                © 2026 DevSpace. All Rights Reserved.
+            </p>
+
+            <div class="footer-links">
+
+                <a href="#home">
+                    Home
+                </a>
+
+                <a href="#features">
+                    Features
+                </a>
+
+                <a href="#contact">
+                    Contact
+                </a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        // Mobile menu
+
+        const menuBtn = document.getElementById("menuBtn");
+        const navLinks = document.getElementById("navLinks");
+
+        menuBtn.addEventListener("click", function () {
+
+            navLinks.classList.toggle("active");
+
+            if (navLinks.classList.contains("active")) {
+                menuBtn.textContent = "✕";
+            } else {
+                menuBtn.textContent = "☰";
+            }
+
+        });
+
+
+        // Close mobile menu after clicking a link
+
+        const links = document.querySelectorAll(".nav-links a");
+
+        links.forEach(function(link) {
+
+            link.addEventListener("click", function() {
+
+                navLinks.classList.remove("active");
+
+                menuBtn.textContent = "☰";
+
+            });
+
+        });
+
+
+        // Contact button interaction
+
+        const contactBtn =
+            document.getElementById("contactBtn");
+
+        contactBtn.addEventListener("click", function() {
+
+            console.log("Contact button clicked");
+
+        });
+
+
+        // Simple scroll effect
+
+        window.addEventListener("scroll", function() {
+
+            const header = document.querySelector("header");
+
+            if (window.scrollY > 50) {
+
+                header.style.boxShadow =
+                    "0 5px 20px rgba(0,0,0,0.08)";
+
+            } else {
+
+                header.style.boxShadow = "none";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
+```
