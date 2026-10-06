@@ -1,0 +1,1329 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="DevSpace is a small-scale Single Page Application demonstrating client-side routing and dynamic content loading."
+    >
+
+    <title>DevSpace SPA</title>
+
+    <style>
+        /* ==============================
+           RESET & BASE STYLES
+           ============================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+            line-height: 1.6;
+            color: #172033;
+            background: #f8fafc;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:focus-visible,
+        a:focus-visible {
+            outline: 3px solid #f59e0b;
+            outline-offset: 3px;
+        }
+
+        /* ==============================
+           HEADER
+           ============================== */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #0f172a;
+            color: #ffffff;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .nav-container {
+            width: min(1150px, 92%);
+            min-height: 70px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        .nav-list {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.4rem;
+            color: #e2e8f0;
+            font-weight: 600;
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #ffffff;
+            background: #0369a1;
+        }
+
+        .menu-button {
+            display: none;
+            min-width: 44px;
+            min-height: 44px;
+            padding: 0.5rem;
+            color: #ffffff;
+            background: #1e293b;
+            border: 0;
+            border-radius: 0.4rem;
+            font-size: 1.25rem;
+            cursor: pointer;
+        }
+
+        /* ==============================
+           APP CONTAINER
+           ============================== */
+
+        #app {
+            width: min(1150px, 92%);
+            min-height: calc(100vh - 140px);
+            margin: auto;
+        }
+
+        .page {
+            padding: 4rem 0;
+            animation: pageIn 0.3s ease;
+        }
+
+        @keyframes pageIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==============================
+           HERO
+           ============================== */
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            align-items: center;
+            gap: 3rem;
+            min-height: 70vh;
+        }
+
+        .hero-content h1 {
+            margin-bottom: 1rem;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.05em;
+        }
+
+        .hero-content h1 span {
+            color: #0284c7;
+        }
+
+        .hero-content p {
+            max-width: 650px;
+            margin-bottom: 1.5rem;
+            color: #475569;
+            font-size: 1.15rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 0.7rem 1.2rem;
+            border: 2px solid #0284c7;
+            border-radius: 0.5rem;
+            background: #0284c7;
+            color: #ffffff;
+            font-weight: 700;
+            cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .button:hover {
+            background: #0369a1;
+            transform: translateY(-2px);
+        }
+
+        .button.secondary {
+            color: #0369a1;
+            background: transparent;
+        }
+
+        .button.secondary:hover {
+            color: #ffffff;
+        }
+
+        .hero-card {
+            padding: 2rem;
+            color: #ffffff;
+            background:
+                linear-gradient(
+                    135deg,
+                    #0369a1,
+                    #0f172a
+                );
+            border-radius: 1rem;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+        }
+
+        .hero-card .code {
+            padding: 1.25rem;
+            overflow: auto;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 0.5rem;
+            font-family: Consolas, monospace;
+            font-size: 0.9rem;
+        }
+
+        /* ==============================
+           PAGE HEADINGS
+           ============================== */
+
+        .page-heading {
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        .page-heading h1 {
+            margin-bottom: 0.5rem;
+            font-size: clamp(2rem, 5vw, 3rem);
+        }
+
+        .page-heading p {
+            color: #64748b;
+        }
+
+        /* ==============================
+           CARDS
+           ============================== */
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+
+        .card {
+            padding: 1.5rem;
+            background: #ffffff;
+            border: 1px solid #dbe3ea;
+            border-radius: 0.75rem;
+            box-shadow: 0 5px 15px rgba(15, 23, 42, 0.05);
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(15, 23, 42, 0.1);
+        }
+
+        .card-icon {
+            display: grid;
+            width: 50px;
+            height: 50px;
+            margin-bottom: 1rem;
+            place-items: center;
+            color: #ffffff;
+            background: #0284c7;
+            border-radius: 50%;
+            font-size: 1.3rem;
+        }
+
+        .card h2,
+        .card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            color: #64748b;
+        }
+
+        /* ==============================
+           ABOUT
+           ============================== */
+
+        .about-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .info-box {
+            padding: 2rem;
+            background: #ffffff;
+            border-left: 5px solid #0284c7;
+            border-radius: 0.5rem;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.06);
+        }
+
+        .info-box h2 {
+            margin-bottom: 1rem;
+        }
+
+        .info-box p {
+            margin-bottom: 1rem;
+            color: #475569;
+        }
+
+        /* ==============================
+           PROJECTS
+           ============================== */
+
+        .project-card {
+            overflow: hidden;
+        }
+
+        .project-header {
+            padding: 1rem 1.25rem;
+            color: #ffffff;
+            background: #0f172a;
+            font-weight: 700;
+        }
+
+        .project-body {
+            padding: 1.25rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            padding: 0.25rem 0.6rem;
+            color: #075985;
+            background: #e0f2fe;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* ==============================
+           CONTACT
+           ============================== */
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 2rem;
+        }
+
+        .contact-info {
+            padding: 2rem;
+            color: #ffffff;
+            background: #0f172a;
+            border-radius: 0.75rem;
+        }
+
+        .contact-info h2 {
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+
+        form {
+            padding: 2rem;
+            background: #ffffff;
+            border: 1px solid #dbe3ea;
+            border-radius: 0.75rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.35rem;
+            font-weight: 700;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            color: #172033;
+            background: #ffffff;
+            border: 2px solid #94a3b8;
+            border-radius: 0.4rem;
+            font: inherit;
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #0284c7;
+            outline: 3px solid rgba(2, 132, 199, 0.2);
+        }
+
+        .form-message {
+            margin-top: 1rem;
+            font-weight: 700;
+        }
+
+        /* ==============================
+           ERROR PAGE
+           ============================== */
+
+        .error-page {
+            min-height: 60vh;
+            display: grid;
+            place-items: center;
+            text-align: center;
+        }
+
+        .error-page h1 {
+            margin-bottom: 0.5rem;
+            font-size: 4rem;
+            color: #dc2626;
+        }
+
+        .error-page p {
+            margin-bottom: 1.5rem;
+            color: #64748b;
+        }
+
+        /* ==============================
+           FOOTER
+           ============================== */
+
+        footer {
+            padding: 2rem 0;
+            color: #cbd5e1;
+            background: #0f172a;
+            text-align: center;
+        }
+
+        /* ==============================
+           RESPONSIVE DESIGN
+           ============================== */
+
+        @media (max-width: 800px) {
+
+            .menu-button {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .nav-list {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                display: none;
+                padding: 1rem;
+                background: #0f172a;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-list.open {
+                display: flex;
+            }
+
+            .nav-link {
+                padding: 0.8rem;
+            }
+
+            .hero,
+            .about-layout,
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 3rem 0;
+            }
+        }
+
+        /* Respect reduced motion preferences. */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==============================
+         HEADER
+         ============================== -->
+
+    <header>
+
+        <div class="nav-container">
+
+            <a
+                class="logo"
+                href="/"
+                data-route
+                aria-label="DevSpace home"
+            >
+                Dev<span>Space</span>
+            </a>
+
+            <nav aria-label="Main navigation">
+
+                <button
+                    class="menu-button"
+                    id="menu-button"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="main-navigation"
+                    aria-label="Open navigation menu"
+                >
+                    ☰
+                </button>
+
+                <ul
+                    class="nav-list"
+                    id="main-navigation"
+                >
+
+                    <li>
+                        <a
+                            class="nav-link"
+                            href="/"
+                            data-route
+                        >
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="nav-link"
+                            href="/about"
+                            data-route
+                        >
+                            About
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="nav-link"
+                            href="/projects"
+                            data-route
+                        >
+                            Projects
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            class="nav-link"
+                            href="/contact"
+                            data-route
+                        >
+                            Contact
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+    <!-- ==============================
+         DYNAMIC APPLICATION CONTAINER
+         ============================== -->
+
+    <main
+        id="app"
+        aria-live="polite"
+        aria-busy="false"
+    >
+        <!-- JavaScript dynamically inserts page content here. -->
+    </main>
+
+    <!-- ==============================
+         FOOTER
+         ============================== -->
+
+    <footer>
+
+        <p>
+            &copy; <span id="year"></span>
+            DevSpace SPA. Built with HTML, CSS & JavaScript.
+        </p>
+
+    </footer>
+
+
+    <script>
+        "use strict";
+
+        /* =========================================
+           APPLICATION DATA
+           ========================================= */
+
+        const pages = {
+
+            home: {
+                title: "Home",
+                content: `
+                    <section class="page hero">
+
+                        <div class="hero-content">
+
+                            <h1>
+                                Build Better
+                                <span>Web Experiences.</span>
+                            </h1>
+
+                            <p>
+                                Welcome to DevSpace, a small-scale Single
+                                Page Application demonstrating client-side
+                                routing, dynamic content rendering and
+                                browser history management.
+                            </p>
+
+                            <div class="hero-actions">
+
+                                <a
+                                    href="/projects"
+                                    data-route
+                                    class="button"
+                                >
+                                    View Projects
+                                </a>
+
+                                <a
+                                    href="/about"
+                                    data-route
+                                    class="button secondary"
+                                >
+                                    Learn More
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                        <div class="hero-card">
+
+                            <div class="code">
+<pre>
+const app = "DevSpace";
+
+function navigate(route) {
+    history.pushState({}, "", route);
+    renderPage();
+}
+
+console.log("SPA loaded!");
+</pre>
+                            </div>
+
+                        </div>
+
+                    </section>
+                `
+            },
+
+            about: {
+                title: "About",
+                content: `
+                    <section class="page">
+
+                        <div class="page-heading">
+
+                            <h1>About DevSpace</h1>
+
+                            <p>
+                                Understanding the architecture behind
+                                this Single Page Application.
+                            </p>
+
+                        </div>
+
+                        <div class="about-layout">
+
+                            <div class="info-box">
+
+                                <h2>What is an SPA?</h2>
+
+                                <p>
+                                    A Single Page Application loads a single
+                                    HTML document and dynamically updates
+                                    the displayed content as users navigate.
+                                </p>
+
+                                <p>
+                                    Instead of requesting a completely new
+                                    document for every page, JavaScript
+                                    updates the DOM and browser history.
+                                </p>
+
+                            </div>
+
+                            <div class="info-box">
+
+                                <h2>Technologies</h2>
+
+                                <p>
+                                    <strong>HTML:</strong>
+                                    Provides the application structure.
+                                </p>
+
+                                <p>
+                                    <strong>CSS:</strong>
+                                    Provides responsive styling,
+                                    transitions and visual design.
+                                </p>
+
+                                <p>
+                                    <strong>JavaScript:</strong>
+                                    Handles routing, DOM updates and
+                                    browser history.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+                `
+            },
+
+            projects: {
+                title: "Projects",
+                content: `
+                    <section class="page">
+
+                        <div class="page-heading">
+
+                            <h1>Projects</h1>
+
+                            <p>
+                                Example projects displayed dynamically
+                                without a full page refresh.
+                            </p>
+
+                        </div>
+
+                        <div class="card-grid">
+
+                            <article class="card project-card">
+
+                                <div class="project-header">
+                                    Project 01
+                                </div>
+
+                                <div class="project-body">
+
+                                    <h2>Accessible Website</h2>
+
+                                    <p>
+                                        A responsive website focused on
+                                        semantic HTML and WCAG-friendly
+                                        interaction.
+                                    </p>
+
+                                    <div class="tags">
+                                        <span class="tag">HTML</span>
+                                        <span class="tag">CSS</span>
+                                        <span class="tag">Accessibility</span>
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+                            <article class="card project-card">
+
+                                <div class="project-header">
+                                    Project 02
+                                </div>
+
+                                <div class="project-body">
+
+                                    <h2>Performance Optimizer</h2>
+
+                                    <p>
+                                        A static page optimized for faster
+                                        loading and efficient rendering.
+                                    </p>
+
+                                    <div class="tags">
+                                        <span class="tag">Performance</span>
+                                        <span class="tag">JavaScript</span>
+                                        <span class="tag">Lighthouse</span>
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+                            <article class="card project-card">
+
+                                <div class="project-header">
+                                    Project 03
+                                </div>
+
+                                <div class="project-body">
+
+                                    <h2>SPA Router</h2>
+
+                                    <p>
+                                        A lightweight client-side router
+                                        using the History API.
+                                    </p>
+
+                                    <div class="tags">
+                                        <span class="tag">SPA</span>
+                                        <span class="tag">History API</span>
+                                        <span class="tag">DOM</span>
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+                        </div>
+
+                    </section>
+                `
+            },
+
+            contact: {
+                title: "Contact",
+                content: `
+                    <section class="page">
+
+                        <div class="page-heading">
+
+                            <h1>Contact</h1>
+
+                            <p>
+                                Send a message without leaving the
+                                application.
+                            </p>
+
+                        </div>
+
+                        <div class="contact-layout">
+
+                            <div class="contact-info">
+
+                                <h2>Let's Connect</h2>
+
+                                <p>
+                                    Have a project idea or want to learn
+                                    more about this SPA implementation?
+                                </p>
+
+                                <p>
+                                    Complete the form and the application
+                                    will provide instant feedback without
+                                    reloading the page.
+                                </p>
+
+                            </div>
+
+                            <form id="contact-form">
+
+                                <div class="form-group">
+
+                                    <label for="name">
+                                        Name
+                                    </label>
+
+                                    <input
+                                        id="name"
+                                        name="name"
+                                        type="text"
+                                        autocomplete="name"
+                                        required
+                                    >
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label for="email">
+                                        Email
+                                    </label>
+
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        autocomplete="email"
+                                        required
+                                    >
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label for="message">
+                                        Message
+                                    </label>
+
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        required
+                                    ></textarea>
+
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    class="button"
+                                >
+                                    Send Message
+                                </button>
+
+                                <p
+                                    id="form-message"
+                                    class="form-message"
+                                    role="status"
+                                    aria-live="polite"
+                                ></p>
+
+                            </form>
+
+                        </div>
+
+                    </section>
+                `
+            }
+
+        };
+
+
+        /* =========================================
+           DOM REFERENCES
+           ========================================= */
+
+        const app = document.getElementById("app");
+
+        const navigation =
+            document.getElementById("main-navigation");
+
+        const menuButton =
+            document.getElementById("menu-button");
+
+
+        /* =========================================
+           ROUTE HANDLING
+           ========================================= */
+
+        function getRoute() {
+
+            const path =
+                window.location.pathname
+                    .replace(/\/+$/, "");
+
+            if (path === "" || path === "/") {
+                return "home";
+            }
+
+            return path.substring(1).toLowerCase();
+
+        }
+
+
+        /* =========================================
+           PAGE RENDERING
+           ========================================= */
+
+        function renderPage() {
+
+            const route = getRoute();
+
+            app.setAttribute("aria-busy", "true");
+
+            /*
+             * Find the requested page.
+             * If the route does not exist, show an error page.
+             */
+
+            if (pages[route]) {
+
+                app.innerHTML = pages[route].content;
+
+                document.title =
+                    `${pages[route].title} | DevSpace SPA`;
+
+            } else {
+
+                app.innerHTML = `
+                    <section class="page error-page">
+
+                        <div>
+
+                            <h1>404</h1>
+
+                            <p>
+                                The page you requested could not
+                                be found.
+                            </p>
+
+                            <a
+                                href="/"
+                                data-route
+                                class="button"
+                            >
+                                Return Home
+                            </a>
+
+                        </div>
+
+                    </section>
+                `;
+
+                document.title =
+                    "404 | DevSpace SPA";
+            }
+
+            updateActiveNavigation(route);
+
+            app.setAttribute("aria-busy", "false");
+
+            /*
+             * Attach event handlers to newly generated links.
+             */
+
+            attachRouteEvents();
+
+            /*
+             * Attach contact form behavior if the contact page
+             * is currently displayed.
+             */
+
+            attachFormEvents();
+
+            /*
+             * Return focus to the main application container
+             * after navigation.
+             */
+
+            app.setAttribute("tabindex", "-1");
+            app.focus({ preventScroll: true });
+
+        }
+
+
+        /* =========================================
+           CLIENT-SIDE NAVIGATION
+           ========================================= */
+
+        function navigateTo(url) {
+
+            /*
+             * Change the URL without reloading the document.
+             */
+
+            history.pushState(
+                { route: url },
+                "",
+                url
+            );
+
+            /*
+             * Render the new page.
+             */
+
+            renderPage();
+
+            /*
+             * Close mobile navigation.
+             */
+
+            closeMobileMenu();
+
+        }
+
+
+        /* =========================================
+           ROUTE EVENT HANDLERS
+           ========================================= */
+
+        function attachRouteEvents() {
+
+            const routeLinks =
+                document.querySelectorAll("[data-route]");
+
+            routeLinks.forEach(link => {
+
+                link.addEventListener("click", event => {
+
+                    event.preventDefault();
+
+                    const url =
+                        link.getAttribute("href");
+
+                    navigateTo(url);
+
+                });
+
+            });
+
+        }
+
+
+        /* =========================================
+           BROWSER BACK / FORWARD
+           ========================================= */
+
+        window.addEventListener("popstate", () => {
+
+            renderPage();
+
+        });
+
+
+        /* =========================================
+           ACTIVE NAVIGATION
+           ========================================= */
+
+        function updateActiveNavigation(route) {
+
+            const links =
+                navigation.querySelectorAll(".nav-link");
+
+            links.forEach(link => {
+
+                const linkRoute =
+                    link.getAttribute("href")
+                        .replace("/", "") || "home";
+
+                const isActive =
+                    linkRoute === route;
+
+                link.classList.toggle(
+                    "active",
+                    isActive
+                );
+
+                if (isActive) {
+
+                    link.setAttribute(
+                        "aria-current",
+                        "page"
+                    );
+
+                } else {
+
+                    link.removeAttribute(
+                        "aria-current"
+                    );
+
+                }
+
+            });
+
+        }
+
+
+        /* =========================================
+           MOBILE MENU
+           ========================================= */
+
+        menuButton.addEventListener("click", () => {
+
+            const isOpen =
+                menuButton.getAttribute(
+                    "aria-expanded"
+                ) === "true";
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                String(!isOpen)
+            );
+
+            menuButton.setAttribute(
+                "aria-label",
+                isOpen
+                    ? "Open navigation menu"
+                    : "Close navigation menu"
+            );
+
+            navigation.classList.toggle(
+                "open",
+                !isOpen
+            );
+
+        });
+
+
+        function closeMobileMenu() {
+
+            navigation.classList.remove("open");
+
+            menuButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            menuButton.setAttribute(
+                "aria-label",
+                "Open navigation menu"
+            );
+
+        }
+
+
+        /* =========================================
+           CONTACT FORM
+           ========================================= */
+
+        function attachFormEvents() {
+
+            const form =
+                document.getElementById("contact-form");
+
+            if (!form) {
+                return;
+            }
+
+            const message =
+                document.getElementById("form-message");
+
+            form.addEventListener(
+                "submit",
+                event => {
+
+                    event.preventDefault();
+
+                    if (!form.checkValidity()) {
+
+                        message.textContent =
+                            "Please complete all required fields.";
+
+                        form.reportValidity();
+
+                        return;
+                    }
+
+                    message.textContent =
+                        "Thank you! Your message has been submitted successfully.";
+
+                    form.reset();
+
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           INITIAL APPLICATION LOAD
+           ========================================= */
+
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+
+        /*
+         * Render the correct page based on the current URL.
+         */
+
+        renderPage();
+
+    </script>
+
+</body>
+</html>
+```
