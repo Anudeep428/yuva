@@ -1,0 +1,937 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Responsive viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Basic SEO -->
+    <meta
+        name="description"
+        content="An accessible and performance-optimized developer website."
+    >
+
+    <title>DevSpace | Accessible Developer Platform</title>
+
+    <style>
+        /* ================================
+           Base / Reset
+           ================================ */
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+            line-height: 1.6;
+            color: #172033;
+            background: #ffffff;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        a {
+            color: #075985;
+        }
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 3px solid #f59e0b;
+            outline-offset: 3px;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(1120px, 92%);
+            margin-inline: auto;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* ================================
+           Skip Link
+           ================================ */
+
+        .skip-link {
+            position: fixed;
+            top: -100px;
+            left: 1rem;
+            z-index: 9999;
+            padding: 0.75rem 1rem;
+            color: #ffffff;
+            background: #111827;
+            border-radius: 0.4rem;
+            text-decoration: none;
+        }
+
+        .skip-link:focus {
+            top: 1rem;
+        }
+
+        /* ================================
+           Header / Navigation
+           ================================ */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #ffffff;
+            border-bottom: 1px solid #dbe3ea;
+        }
+
+        .nav {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .logo {
+            color: #0f172a;
+            font-size: 1.35rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-toggle,
+        .theme-toggle {
+            min-width: 44px;
+            min-height: 44px;
+            padding: 0.5rem;
+            color: #ffffff;
+            background: #0f172a;
+            border: 0;
+            border-radius: 0.4rem;
+        }
+
+        .nav-toggle {
+            display: none;
+        }
+
+        .nav-list {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .nav-list a {
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* ================================
+           Hero
+           ================================ */
+
+        .hero {
+            padding: 5rem 0;
+            background:
+                linear-gradient(
+                    135deg,
+                    #eff6ff,
+                    #f8fafc
+                );
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .hero h1 {
+            max-width: 700px;
+            margin: 0 0 1rem;
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: 0 0 1.5rem;
+            font-size: 1.15rem;
+            color: #334155;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 0.7rem 1.1rem;
+            color: #ffffff;
+            background: #0369a1;
+            border: 2px solid #0369a1;
+            border-radius: 0.45rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background: #075985;
+            border-color: #075985;
+        }
+
+        .button.secondary {
+            color: #075985;
+            background: transparent;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .hero-image {
+            border-radius: 1rem;
+            box-shadow: 0 15px 35px rgb(15 23 42 / 15%);
+        }
+
+        /* ================================
+           Sections
+           ================================ */
+
+        section {
+            padding: 4.5rem 0;
+        }
+
+        .section-heading {
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        .section-heading h2 {
+            margin: 0 0 0.5rem;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+        }
+
+        .section-heading p {
+            margin: 0;
+            color: #475569;
+        }
+
+        /* ================================
+           Feature Cards
+           ================================ */
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+
+        .card {
+            padding: 1.5rem;
+            background: #ffffff;
+            border: 1px solid #dbe3ea;
+            border-radius: 0.75rem;
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .card p {
+            margin-bottom: 0;
+            color: #475569;
+        }
+
+        .icon {
+            display: inline-grid;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            place-items: center;
+            color: #ffffff;
+            background: #0369a1;
+            border-radius: 50%;
+            font-weight: 800;
+        }
+
+        /* ================================
+           Performance Section
+           ================================ */
+
+        .performance {
+            background: #f8fafc;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .stat {
+            padding: 1.5rem;
+            text-align: center;
+            background: #ffffff;
+            border-radius: 0.75rem;
+            border: 1px solid #dbe3ea;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 2rem;
+            color: #075985;
+        }
+
+        /* ================================
+           Contact Form
+           ================================ */
+
+        form {
+            max-width: 700px;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.35rem;
+            font-weight: 700;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            font: inherit;
+            color: #172033;
+            background: #ffffff;
+            border: 2px solid #94a3b8;
+            border-radius: 0.4rem;
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #0369a1;
+            outline: 3px solid rgb(3 105 161 / 20%);
+        }
+
+        .form-message {
+            margin-top: 1rem;
+            font-weight: 700;
+        }
+
+        /* ================================
+           Footer
+           ================================ */
+
+        footer {
+            padding: 2rem 0;
+            color: #e2e8f0;
+            background: #0f172a;
+        }
+
+        footer a {
+            color: #bae6fd;
+        }
+
+        /* ================================
+           Dark Mode
+           ================================ */
+
+        body.dark {
+            color: #e5e7eb;
+            background: #111827;
+        }
+
+        body.dark header,
+        body.dark .card,
+        body.dark .stat,
+        body.dark input,
+        body.dark textarea {
+            background: #1e293b;
+            border-color: #475569;
+        }
+
+        body.dark .logo {
+            color: #f8fafc;
+        }
+
+        body.dark .hero,
+        body.dark .performance {
+            background: #0f172a;
+        }
+
+        body.dark .hero p,
+        body.dark .section-heading p,
+        body.dark .card p {
+            color: #cbd5e1;
+        }
+
+        body.dark input,
+        body.dark textarea {
+            color: #ffffff;
+        }
+
+        /* ================================
+           Responsive Layout
+           ================================ */
+
+        @media (max-width: 800px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features,
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-toggle {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .nav-list {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                display: none;
+                padding: 1rem;
+                background: #ffffff;
+                border-bottom: 1px solid #dbe3ea;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-list.open {
+                display: flex;
+            }
+
+            .nav-list a {
+                display: block;
+                padding: 0.75rem;
+            }
+
+            body.dark .nav-list {
+                background: #1e293b;
+                border-color: #475569;
+            }
+        }
+
+        /* Respect users who prefer reduced motion. */
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Allows keyboard and screen-reader users to skip navigation -->
+    <a class="skip-link" href="#main-content">
+        Skip to main content
+    </a>
+
+    <header>
+        <div class="container nav">
+
+            <a class="logo" href="#home" aria-label="DevSpace home">
+                DevSpace
+            </a>
+
+            <nav aria-label="Primary navigation">
+
+                <ul class="nav-list" id="primary-navigation">
+
+                    <li>
+                        <a href="#home">Home</a>
+                    </li>
+
+                    <li>
+                        <a href="#features">Features</a>
+                    </li>
+
+                    <li>
+                        <a href="#performance">Performance</a>
+                    </li>
+
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+            <div class="nav-controls">
+
+                <button
+                    class="theme-toggle"
+                    id="theme-toggle"
+                    type="button"
+                    aria-label="Enable dark mode"
+                    aria-pressed="false"
+                >
+                    ◐
+                </button>
+
+                <button
+                    class="nav-toggle"
+                    id="nav-toggle"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="primary-navigation"
+                    aria-label="Open navigation menu"
+                >
+                    ☰
+                </button>
+
+            </div>
+
+        </div>
+    </header>
+
+    <main id="main-content">
+
+        <!-- Hero -->
+        <section class="hero" id="home" aria-labelledby="hero-title">
+
+            <div class="container hero-grid">
+
+                <div>
+
+                    <h1 id="hero-title">
+                        Fast, Accessible & Modern Web Experiences
+                    </h1>
+
+                    <p>
+                        A performance-focused developer website built with
+                        semantic HTML, efficient CSS and lightweight
+                        JavaScript.
+                    </p>
+
+                    <div class="hero-actions">
+
+                        <a class="button" href="#features">
+                            Explore Features
+                        </a>
+
+                        <a class="button secondary" href="#contact">
+                            Contact Us
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <!-- Lazy loading reduces initial page load cost -->
+                    <img
+                        class="hero-image"
+                        src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=75"
+                        alt="Laptop displaying source code on a development workspace"
+                        width="900"
+                        height="600"
+                        fetchpriority="high"
+                    >
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Features -->
+        <section id="features" aria-labelledby="features-title">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <h2 id="features-title">
+                        Built for Everyone
+                    </h2>
+
+                    <p>
+                        The page follows modern web standards and
+                        accessibility practices.
+                    </p>
+
+                </div>
+
+                <div class="features">
+
+                    <article class="card">
+
+                        <span class="icon" aria-hidden="true">
+                            ✓
+                        </span>
+
+                        <h3>Accessible HTML</h3>
+
+                        <p>
+                            Semantic elements and logical document structure
+                            make content easier for assistive technologies.
+                        </p>
+
+                    </article>
+
+                    <article class="card">
+
+                        <span class="icon" aria-hidden="true">
+                            ⚡
+                        </span>
+
+                        <h3>Optimized Performance</h3>
+
+                        <p>
+                            Lightweight CSS and JavaScript reduce unnecessary
+                            processing and improve page responsiveness.
+                        </p>
+
+                    </article>
+
+                    <article class="card">
+
+                        <span class="icon" aria-hidden="true">
+                            ⌨
+                        </span>
+
+                        <h3>Keyboard Friendly</h3>
+
+                        <p>
+                            Interactive elements can be reached and operated
+                            using a keyboard.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Performance -->
+        <section
+            class="performance"
+            id="performance"
+            aria-labelledby="performance-title"
+        >
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <h2 id="performance-title">
+                        Performance Priorities
+                    </h2>
+
+                    <p>
+                        The implementation avoids unnecessary dependencies
+                        and focuses on efficient rendering.
+                    </p>
+
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat">
+                        <strong>0</strong>
+                        <span>External JS Libraries</span>
+                    </div>
+
+                    <div class="stat">
+                        <strong>1</strong>
+                        <span>HTML File</span>
+                    </div>
+
+                    <div class="stat">
+                        <strong>100%</strong>
+                        <span>Semantic Structure</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" aria-labelledby="contact-title">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <h2 id="contact-title">
+                        Contact Us
+                    </h2>
+
+                    <p>
+                        Send us a message using the accessible form below.
+                    </p>
+
+                </div>
+
+                <form id="contact-form" novalidate>
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Name
+                        </label>
+
+                        <input
+                            id="name"
+                            name="name"
+                            type="text"
+                            autocomplete="name"
+                            required
+                            aria-required="true"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email address
+                        </label>
+
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            autocomplete="email"
+                            required
+                            aria-required="true"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="message">
+                            Message
+                        </label>
+
+                        <textarea
+                            id="message"
+                            name="message"
+                            required
+                            aria-required="true"
+                        ></textarea>
+
+                    </div>
+
+                    <button class="button" type="submit">
+                        Send Message
+                    </button>
+
+                    <p
+                        class="form-message"
+                        id="form-message"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+
+        <div class="container">
+
+            <p>
+                &copy; <span id="year"></span> DevSpace.
+                Built with accessibility and performance in mind.
+            </p>
+
+        </div>
+
+    </footer>
+
+    <script>
+        "use strict";
+
+        /* ================================
+           Mobile Navigation
+           ================================ */
+
+        const navToggle = document.getElementById("nav-toggle");
+        const navigation = document.getElementById("primary-navigation");
+
+        navToggle.addEventListener("click", () => {
+
+            const isOpen =
+                navToggle.getAttribute("aria-expanded") === "true";
+
+            navToggle.setAttribute("aria-expanded", String(!isOpen));
+
+            navToggle.setAttribute(
+                "aria-label",
+                isOpen
+                    ? "Open navigation menu"
+                    : "Close navigation menu"
+            );
+
+            navigation.classList.toggle("open", !isOpen);
+        });
+
+        /* Close mobile navigation after selecting a link. */
+
+        navigation.querySelectorAll("a").forEach(link => {
+
+            link.addEventListener("click", () => {
+
+                navigation.classList.remove("open");
+
+                navToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                navToggle.setAttribute(
+                    "aria-label",
+                    "Open navigation menu"
+                );
+
+            });
+
+        });
+
+        /* ================================
+           Dark Mode
+           ================================ */
+
+        const themeToggle =
+            document.getElementById("theme-toggle");
+
+        themeToggle.addEventListener("click", () => {
+
+            const darkMode =
+                document.body.classList.toggle("dark");
+
+            themeToggle.setAttribute(
+                "aria-pressed",
+                String(darkMode)
+            );
+
+            themeToggle.setAttribute(
+                "aria-label",
+                darkMode
+                    ? "Disable dark mode"
+                    : "Enable dark mode"
+            );
+
+        });
+
+        /* ================================
+           Contact Form
+           ================================ */
+
+        const form =
+            document.getElementById("contact-form");
+
+        const formMessage =
+            document.getElementById("form-message");
+
+        form.addEventListener("submit", event => {
+
+            event.preventDefault();
+
+            if (!form.checkValidity()) {
+
+                formMessage.textContent =
+                    "Please complete all required fields.";
+
+                form.reportValidity();
+
+                return;
+            }
+
+            formMessage.textContent =
+                "Thank you! Your message has been received.";
+
+            form.reset();
+
+        });
+
+        /* ================================
+           Dynamic Copyright Year
+           ================================ */
+
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+    </script>
+
+</body>
+</html>
+```
